@@ -1,0 +1,3 @@
+Doodah will be a simple Ruby gem for creating zip files that are well suited to streaming. This will be achieved by only supporting the zip STORE method (for predictable size), and by use of the optional data descriptor after each file so that output of file data can start before a whole file has been processed. 
+
+
