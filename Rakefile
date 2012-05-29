@@ -34,6 +34,7 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.libs << 'lib' << 'spec'
   spec.pattern = 'spec/**/*_spec.rb'
   spec.rcov = true
+  spec.rcov_opts << '-T' << '-i' << 'lib\/doo_dah' << '-x' << 'spec\/'
 end
 
 task :spec => :check_dependencies

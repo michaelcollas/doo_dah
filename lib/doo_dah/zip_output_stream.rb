@@ -5,10 +5,22 @@ module DooDah
 
   class ZipOutputStream
 
+    class EntryOpen < Exception
+    end
+
     def initialize(output_stream)
       @output_stream = output_stream
       @total_bytes_written = 0
       @entries = []
+    end
+
+    def create_entry(name, size=0)
+      raise EntryOpen if entry_open?
+      begin
+        yield start_entry(name, size)
+      ensure
+        end_current_entry
+      end
     end
 
     # TODO: take block instead of using a start/end method pair?
@@ -52,6 +64,10 @@ module DooDah
     
     def current_entry
       @entries.last
+    end
+
+    def entry_open?
+      current_entry && !current_entry.closed?
     end
 
   end

@@ -7,7 +7,7 @@ module DooDah
     before do
       @output_stream = stub(:write => 7)
       @zip = ZipOutputStream.new(@output_stream)
-      @entry = stub(:close => nil)
+      @entry = stub(:close => nil, :closed? => false)
       ZipEntry.stub(:new => @entry)
     end
 
@@ -28,9 +28,54 @@ module DooDah
         @zip.start_entry('entry2', 0)
       end
 
-      it 'should yield the new entry to a block if one is provided'
+    end
 
-      it 'should close the new entry on return from the block if one is provided'
+    describe '#create_entry' do
+
+      it 'should create a new ZipEntry' do
+        ZipEntry.should_receive(:new).with(@zip, 'entry name', 123)
+        @zip.create_entry('entry name', 123) {}
+      end
+
+      it 'should yield the new entry to a block' do
+       	yielded_zip_entry = nil
+        @zip.create_entry('entry name', 123) {|zip_entry| yielded_zip_entry = zip_entry}
+        yielded_zip_entry.should == @entry
+      end
+
+      it 'should close the new entry on return from the block' do
+        @entry.should_receive(:close)
+        @zip.create_entry('entry name', 123) {}
+      end
+
+      it 'should close the new entry if an exception is raised during execution of the provided block' do
+        @entry.should_receive(:close)
+        expected_error = Class.new(Exception)
+        begin
+          @zip.create_entry('entry name', 123) { |zip_entry| raise expected_error } 
+        rescue expected_error
+        end
+      end
+
+      describe 'when there is already a zip entry started but not ended' do
+    
+        before do
+          @zip.start_entry('existing entry')
+        end
+
+        it 'should raise an error' do
+          lambda { @zip.create_entry('another entry') {} }.should raise_error(ZipOutputStream::EntryOpen)
+        end
+
+        it 'should not create a new ZipEntry' do
+          ZipEntry.should_not_receive(:new)
+          begin
+            @zip.create_entry('another entry')
+          rescue ZipOutputStream::EntryOpen
+          end
+        end
+
+      end
 
     end
 

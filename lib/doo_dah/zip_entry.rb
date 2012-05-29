@@ -7,6 +7,7 @@ module DooDah
     include CentralDirectoryHeader
 
     attr_reader :size, :crc, :name, :closed
+    alias_method :closed?, :closed
 
     extend ::Forwardable
     def_delegators :@zip_stream, :write, :current_offset
