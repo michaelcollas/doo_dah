@@ -4,14 +4,14 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "zippy"
+    gem.name = "doo_dah"
     gem.summary = 'Creates zip files suitable for streaming.'
     gem.description = <<-END_DESCRIPTION
       This gem creates zip files using the STORE method - i.e. with no compression. This enables the generation of
       zip files with a known size from streamed data, providing the size of the input files is known. 
     END_DESCRIPTION
     gem.email = "mcollas@yahoo.com"
-    gem.homepage = "http://github.com/michaelcollas/zippy"
+    gem.homepage = "http://github.com/michaelcollas/doo_dah"
     gem.authors = ["Michael Collas"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_development_dependency "reek", ">= 1.2.8"
@@ -61,7 +61,7 @@ Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "zippy #{version}"
+  rdoc.title = "doo_dah #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
