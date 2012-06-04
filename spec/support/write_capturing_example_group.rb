@@ -1,10 +1,12 @@
-class WriteCapturingExampleGroup < Spec::ExampleGroup
+module WriteCapturing
 
   attr_reader :writer
   attr_reader :written
 
-  before do
-    @written = ''
+  def self.included(target)
+    target.before do
+      @written = ''
+    end
   end
 
   def record_writes(new_writer)
@@ -14,4 +16,7 @@ class WriteCapturingExampleGroup < Spec::ExampleGroup
 
 end
 
-Spec::Example::ExampleGroupFactory.register(:write_capturing, WriteCapturingExampleGroup)
+RSpec.configure do |configuration|
+  configuration.include(WriteCapturing, :type => :write_capturing)
+end
+

@@ -1,4 +1,4 @@
-Spec::Matchers.define :bytes do |*expected|
+RSpec::Matchers.define :bytes do |*expected|
 
   match do |actual|
     @start_byte ||= 0
@@ -24,6 +24,6 @@ Spec::Matchers.define :bytes do |*expected|
 
 end
 
-module Spec::Matchers
+module RSpec::Matchers
   alias_method(:have_bytes, :bytes)
 end
