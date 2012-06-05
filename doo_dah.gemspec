@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{doo_dah}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Collas"]
-  s.date = %q{2012-06-04}
+  s.date = %q{2012-06-05}
   s.description = %q{      This gem creates zip files using the STORE method - i.e. with no compression. This enables the generation of
       zip files with a known size from streamed data, providing the size of the input files is known. 
 }
@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "config/defaults.reek",
+    "doo_dah.gemspec",
     "example/multi-language.rb",
     "lib/doo_dah.rb",
     "lib/doo_dah/dos_time.rb",
@@ -42,10 +43,23 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/michaelcollas/doo_dah}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.2}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Creates zip files suitable for streaming.}
+  s.test_files = [
+    "spec/central_directory_spec.rb",
+    "spec/dos_time_spec.rb",
+    "spec/local_directory_header_spec.rb",
+    "spec/spec_helper.rb",
+    "spec/support/byte_matcher.rb",
+    "spec/support/write_capturing_example_group.rb",
+    "spec/zip_entry_header_spec.rb",
+    "spec/zip_entry_spec.rb",
+    "spec/zip_header_spec.rb",
+    "spec/zip_output_stream_spec.rb"
+  ]
 
   if s.respond_to? :specification_version then
+    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
