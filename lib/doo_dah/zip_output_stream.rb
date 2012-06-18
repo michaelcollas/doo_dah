@@ -14,19 +14,19 @@ module DooDah
       @entries = []
     end
 
-    def create_entry(name, size=0)
+    def create_entry(name, size=0, crc=0)
       raise EntryOpen if entry_open?
       begin
-        yield start_entry(name, size)
+        yield start_entry(name, size, crc)
       ensure
         end_current_entry
       end
     end
 
     # TODO: take block instead of using a start/end method pair?
-    def start_entry(name, size=0)
+    def start_entry(name, size=0, crc=0)
       end_current_entry
-      new_entry = ZipEntry.new(self, name, size)
+      new_entry = ZipEntry.new(self, name, size, crc)
       @entries << new_entry
       new_entry
     end

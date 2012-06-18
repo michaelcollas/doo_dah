@@ -14,9 +14,24 @@ module DooDah
     describe '#start_entry' do
 
       it 'should create a ZipEntry with the zip output stream as its owner' do
-        ZipEntry.should_receive(:new).with(@zip, 'entry name', 123)
+        ZipEntry.should_receive(:new).with(@zip, 'entry name', 0, 0)
+        @zip.start_entry('entry name')
+      end
+      
+      it 'should create the ZipEntry with 0 size and crc if neither are specified' do
+        ZipEntry.should_receive(:new).with(@zip, 'entry name', 0, 0)
+        @zip.start_entry('entry name')
+      end
+      
+      it 'should create the ZipEntry with a pre-determined size if specified' do
+        ZipEntry.should_receive(:new).with(@zip, 'entry name', 123, 0)
         @zip.start_entry('entry name', 123)
       end
+      
+      it 'should create the ZipEntry with a pre-determined crc if specified' do
+        ZipEntry.should_receive(:new).with(@zip, 'entry name', 0, 9876543210)
+        @zip.start_entry('entry name', 0, 9876543210)
+      end      
 
       it 'should return the new entry' do
         @zip.start_entry('entry name', 123).should == @entry
@@ -33,26 +48,26 @@ module DooDah
     describe '#create_entry' do
 
       it 'should create a new ZipEntry' do
-        ZipEntry.should_receive(:new).with(@zip, 'entry name', 123)
-        @zip.create_entry('entry name', 123) {}
+        ZipEntry.should_receive(:new).with(@zip, 'entry name', 0, 0)
+        @zip.create_entry('entry name') {}
       end
 
       it 'should yield the new entry to a block' do
        	yielded_zip_entry = nil
-        @zip.create_entry('entry name', 123) {|zip_entry| yielded_zip_entry = zip_entry}
+        @zip.create_entry('entry name') {|zip_entry| yielded_zip_entry = zip_entry}
         yielded_zip_entry.should == @entry
       end
 
       it 'should close the new entry on return from the block' do
         @entry.should_receive(:close)
-        @zip.create_entry('entry name', 123) {}
+        @zip.create_entry('entry name') {}
       end
 
       it 'should close the new entry if an exception is raised during execution of the provided block' do
         @entry.should_receive(:close)
         expected_error = Class.new(Exception)
         begin
-          @zip.create_entry('entry name', 123) { |zip_entry| raise expected_error } 
+          @zip.create_entry('entry name') { |zip_entry| raise expected_error } 
         rescue expected_error
         end
       end
