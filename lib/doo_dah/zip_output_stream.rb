@@ -12,6 +12,12 @@ module DooDah
       @output_stream = output_stream
       @total_bytes_written = 0
       @entries = []
+      return unless block_given?
+      begin
+        yield self
+      ensure
+        close
+      end
     end
 
     def create_entry(name, size=0, crc=0)

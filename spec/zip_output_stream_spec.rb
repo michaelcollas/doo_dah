@@ -10,6 +10,32 @@ module DooDah
       @entry = stub(:close => nil, :closed? => false)
       ZipEntry.stub(:new => @entry)
     end
+    
+    describe 'when constructing with a block' do
+      
+      it 'should yield itself to the block' do
+        block_parameter = nil
+        zip_output_stream = ZipOutputStream.new(@output_stream) {|output_stream| block_parameter = output_stream }
+        block_parameter.should == zip_output_stream
+      end
+      
+      it 'should close itself upon return from the block' do
+        zip_output_stream = ZipOutputStream.allocate
+        zip_output_stream.should_receive(:close)
+        zip_output_stream.send(:initialize, @output_stream) {|output_stream| }
+      end
+      
+      it 'should close itself even if an exception is thrown in the block' do
+        zip_output_stream = ZipOutputStream.allocate
+        zip_output_stream.should_receive(:close)
+        BadStuff = Class.new(Exception)
+        begin
+          zip_output_stream.send(:initialize, @output_stream) { |output_stream| raise BadStuff }
+        rescue BadStuff
+        end        
+      end
+      
+    end
 
     describe '#start_entry' do
 
@@ -157,6 +183,12 @@ module DooDah
       @zip.write('7 bytes')
       @zip.write('7 bytes')
       @zip.current_offset.should == 14
+    end
+    
+    it 'should not close itself when constructed without a block' do
+      zip_output_stream = ZipOutputStream.allocate
+      zip_output_stream.should_not_receive(:close)
+      zip_output_stream.send(:initialize, @output_stream)      
     end
 
   end
