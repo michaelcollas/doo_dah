@@ -5,7 +5,7 @@ module DooDah
     attr_accessor :size, :overhead
     
     def initialize
-      @overhead = LocalDirectoryHeader.local_footer_size
+      @overhead = CentralDirectoryHeader.end_of_central_directory_size
       @size = @overhead
     end
     

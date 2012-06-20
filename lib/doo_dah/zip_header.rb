@@ -53,7 +53,7 @@ module DooDah
       14 + 12
     end
     
-    def self.size(name)
+    def self.name_size(name)
       name.length
     end
 
@@ -92,7 +92,7 @@ module DooDah
     end
     
     def self.local_footer_size
-      12
+      ZipHeader.signature_size + 12
     end
 
     def write_local_header
@@ -113,11 +113,11 @@ module DooDah
     include ZipEntryHeader
     
     def self.central_header_size(name)
-      ZipEntry.signature_size + version_made_by_size + ZipHeaderEntry.common_header_size + 6 + 8 + ZipHeaderEntry.name_size(name) 
+      ZipHeader.signature_size + version_made_by_size + ZipEntryHeader.common_header_size + 6 + 8 + ZipEntryHeader.name_size(name) 
     end
     
     def self.end_of_central_directory_size
-      ZipEntry.signature_size + 10 + 8
+      ZipHeader.signature_size + 10 + 8
     end
     
     def self.version_made_by_size
