@@ -23,9 +23,15 @@ module DooDah
   end
 
   module ZipHeader
+    
+    def self.signature_size
+      4
+    end
+    
     def write_signature(signature)
       write([signature].pack('V'))
     end
+    
   end
 
   module ZipEntryHeader
@@ -42,6 +48,14 @@ module DooDah
     VERSION_NEEDED_TO_EXTRACT = 10
     GP_FLAGS_CRC_UNKNOWN = 0x0008
     GP_FLAGS_UTF8 = 0x0800
+    
+    def self.common_header_size
+      14 + 12
+    end
+    
+    def self.size(name)
+      name.length
+    end
 
     def write_common_header()
       flags = GP_FLAGS_UTF8
@@ -72,6 +86,14 @@ module DooDah
 
   module LocalDirectoryHeader
     include ZipEntryHeader
+    
+    def self.local_header_size(name)
+      ZipHeader.signature_size + ZipEntryHeader.common_header_size + ZipEntryHeader.name_size(name)
+    end
+    
+    def self.local_footer_size
+      12
+    end
 
     def write_local_header
       self.local_header_offset = current_offset
@@ -89,6 +111,18 @@ module DooDah
 
   module CentralDirectoryHeader
     include ZipEntryHeader
+    
+    def self.central_header_size(name)
+      ZipEntry.signature_size + version_made_by_size + ZipHeaderEntry.common_header_size + 6 + 8 + ZipHeaderEntry.name_size(name) 
+    end
+    
+    def self.end_of_central_directory_size
+      ZipEntry.signature_size + 10 + 8
+    end
+    
+    def self.version_made_by_size
+      2
+    end
 
     def write_central_header
       write_signature(CENTRAL_ENTRY_HEADER_SIGNATURE)

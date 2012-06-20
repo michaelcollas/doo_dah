@@ -5,6 +5,11 @@ module DooDah
   class ZipEntry
     include LocalDirectoryHeader
     include CentralDirectoryHeader
+    
+    def self.overhead(name, size=0, crc=0)
+      LocalDirectoryHeader.local_header_size(name) + ((size == 0 || crc == 0) ? LocalDirectoryHeader.local_footer_size : 0) +
+        CentralDirectoryHeader.central_header_size(name)  
+    end
 
     attr_reader :name, :closed
     alias_method :closed?, :closed
