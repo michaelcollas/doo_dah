@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{doo_dah}
-  s.version = "0.2.1"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Collas"]
-  s.date = %q{2012-06-18}
+  s.date = %q{2012-06-22}
   s.description = %q{      This gem creates zip files using the STORE method - i.e. with no compression. This enables the generation of
       zip files with a known size from streamed data, providing the size of the input files is known. 
 }
@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
     "lib/doo_dah/zip_entry.rb",
     "lib/doo_dah/zip_header.rb",
     "lib/doo_dah/zip_output_stream.rb",
+    "lib/doo_dah/zip_size_calculator.rb",
     "spec/central_directory_spec.rb",
     "spec/dos_time_spec.rb",
     "spec/local_directory_header_spec.rb",
