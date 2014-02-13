@@ -68,8 +68,10 @@ module DooDah
         written[18, 4].should have_bytes(0x64, 0x53, 0x42, 0x31)
       end
 
-      it 'should write the length of the file name in the two bytes starting at byte 22' do
-        @header.stub(:name => 'x' * 258)
+      it 'should write the byte length of the file name in the two bytes starting at byte 22' do
+        multiply_character_string = [0xC3, 0x97].pack('C*')
+        multiply_character_string.force_encoding('utf-8') if RUBY_VERSION >= '1.9.0'
+        @header.stub(:name => multiply_character_string * 129)
         @header.write_common_header
         written[22, 2].should have_bytes(0x02, 0x01)
       end

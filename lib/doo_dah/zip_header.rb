@@ -54,7 +54,7 @@ module DooDah
     end
     
     def self.name_size(name)
-      name.length
+      name.bytesize
     end
 
     def write_common_header()
@@ -69,7 +69,7 @@ module DooDah
         crc,
         size,                      # compressed_size = size (stored)
         size,
-        name ? name.length : 0,
+        name ? name.bytesize : 0,
         0                          # extra length
       ].pack('vvvvvVVVvv'))
     end
