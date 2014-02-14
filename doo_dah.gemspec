@@ -4,16 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{doo_dah}
-  s.version = "0.3.0"
+  s.name = "doo_dah"
+  s.version = "0.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Collas"]
-  s.date = %q{2012-06-22}
-  s.description = %q{      This gem creates zip files using the STORE method - i.e. with no compression. This enables the generation of
-      zip files with a known size from streamed data, providing the size of the input files is known. 
-}
-  s.email = %q{mcollas@yahoo.com}
+  s.date = "2014-02-14"
+  s.description = "      This gem creates zip files using the STORE method - i.e. with no compression. This enables the generation of\n      zip files with a known size from streamed data, providing the size of the input files is known. \n"
+  s.email = "mcollas@yahoo.com"
   s.extra_rdoc_files = [
     "README"
   ]
@@ -42,10 +40,10 @@ Gem::Specification.new do |s|
     "spec/zip_header_spec.rb",
     "spec/zip_output_stream_spec.rb"
   ]
-  s.homepage = %q{http://github.com/michaelcollas/doo_dah}
+  s.homepage = "http://github.com/michaelcollas/doo_dah"
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.2}
-  s.summary = %q{Creates zip files suitable for streaming.}
+  s.rubygems_version = "1.8.23"
+  s.summary = "Creates zip files suitable for streaming."
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
