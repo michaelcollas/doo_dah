@@ -5,7 +5,7 @@ module DooDah
 
   class ZipOutputStream
 
-    class EntryOpen < Exception
+    class EntryOpen < StandardError
     end
 
     def initialize(output_stream)
